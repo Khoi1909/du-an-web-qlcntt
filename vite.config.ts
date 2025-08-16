@@ -26,7 +26,7 @@ export default defineConfig({
       output: {
         manualChunks: {
           // Vendor chunk for external libraries
-          vendor: ['@types/uuid'],
+          vendor: ['uuid'],
           // Utils chunk for common utilities
           utils: ['src/utils/icons.ts', 'src/utils/Router.ts', 'src/utils/FavoriteManager.ts']
         },
