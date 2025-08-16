@@ -1,0 +1,37 @@
+{
+  "name": "dev-tools-platform",
+  "version": "1.0.0",
+  "description": "Web platform with integrated technical tools for developers",
+  "main": "index.html",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "start": "vite --host",
+    "lint": "eslint src --ext .ts,.js",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "developer-tools",
+    "typescript",
+    "utility-tools",
+    "base64",
+    "jwt",
+    "json",
+    "yaml",
+    "uuid",
+    "hash",
+    "api-tester",
+    "regex"
+  ],
+  "author": "Nguyen Vuong Minh Khoi",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.3.1",
+    "@vitejs/plugin-vue": "^4.2.3",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5"
+  },
+  "dependencies": {}
+}

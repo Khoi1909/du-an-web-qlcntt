@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Developer Tools Platform</title>
+  
+  <!-- Preload critical resources -->
+  <link rel="preload" href="/assets/css/styles.css" as="style">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- DNS prefetch for external resources -->
+  <link rel="dns-prefetch" href="//fonts.googleapis.com">
+  <link rel="dns-prefetch" href="//fonts.gstatic.com">
+  
+  <!-- Meta tags for SEO and social sharing -->
+  <meta name="description" content="A comprehensive collection of utility tools for developers and IT professionals">
+  <meta name="keywords" content="developer tools, base64, jwt, json, yaml, uuid, hash, api tester, regex">
+  <meta name="author" content="Nguyen Vuong Minh Khoi">
+  
+  <!-- Open Graph meta tags -->
+  <meta property="og:title" content="Developer Tools Platform">
+  <meta property="og:description" content="A comprehensive collection of utility tools for developers and IT professionals">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="">
+  
+  <!-- Twitter Card meta tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Developer Tools Platform">
+  <meta name="twitter:description" content="A comprehensive collection of utility tools for developers and IT professionals">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  
+  <!-- Apple Touch Icon -->
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  <!-- Critical CSS inline -->
+  <style>
+    /* Critical above-the-fold CSS */
+    :root{--primary-color:#1e40af;--bg-primary:#ffffff;--bg-secondary:#f8fafc;--text-primary:#1f2937;--border-color:#e5e7eb;--sidebar-width:280px;--header-height:64px;--transition:all 0.2s ease}*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.6;color:var(--text-primary);background-color:var(--bg-primary);overflow-x:hidden}.app-container{display:grid;grid-template-areas:"header header" "sidebar main";grid-template-columns:var(--sidebar-width) 1fr;grid-template-rows:var(--header-height) 1fr;height:100vh;min-height:100vh}.app-header{grid-area:header;background-color:var(--bg-secondary);border-bottom:1px solid var(--border-color);position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--header-height)}.sidebar{grid-area:sidebar;background-color:var(--bg-secondary);border-right:1px solid var(--border-color);position:fixed;top:var(--header-height);left:0;width:var(--sidebar-width);height:calc(100vh - var(--header-height));overflow-y:auto;z-index:100}.main-content-container{grid-area:main;margin-top:var(--header-height);margin-left:var(--sidebar-width);min-height:calc(100vh - var(--header-height))}.loading-container{display:flex;flex-direction:column;align-items:center;justify-content:center;height:50vh}.loading-spinner{width:40px;height:40px;border:4px solid #f3f4f6;border-top:4px solid var(--primary-color);border-radius:50%;animation:spin 1s linear infinite}@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+  </style>
+
+  <!-- Register Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(registration => {
+            console.log('ServiceWorker registered:', registration);
+          })
+          .catch(err => {
+            console.log('ServiceWorker registration failed:', err);
+          });
+      });
+    }
+  </script>
+  
+  <!-- Web App Manifest -->
+  <link rel="manifest" href="/manifest.json">
+  
+  <!-- Theme color for mobile browsers -->
+  <meta name="theme-color" content="#1e40af">
+  <meta name="msapplication-TileColor" content="#1e40af">
+  
+  <!-- Preconnect to external domains for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://api.github.com">
+  
+  <!-- CSS -->
+  <style>
+    /* Critical CSS for loading state */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', sans-serif;
+      background-color: #ffffff;
+      color: #1f2937;
+    }
+    
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.3s ease;
+    }
+    
+    .loading-content {
+      text-align: center;
+      max-width: 300px;
+    }
+    
+    .loading-spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid #e5e7eb;
+      border-top: 4px solid #1e40af;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 24px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .loading-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #1f2937;
+    }
+    
+    .loading-subtitle {
+      font-size: 14px;
+      color: #6b7280;
+    }
+    
+    /* Hide loading screen when app is ready */
+    .app-ready .loading-screen {
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    /* Dark theme loading screen */
+    @media (prefers-color-scheme: dark) {
+      .loading-screen {
+        background-color: #161616;
+      }
+      
+      .loading-title {
+        color: #f8fafc;
+      }
+      
+      .loading-subtitle {
+        color: #cbd5e1;
+      }
+      
+      .loading-spinner {
+        border-color: #2d2d2d;
+        border-top-color: #3b82f6;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading screen -->
+  <div class="loading-screen" id="loading-screen">
+    <div class="loading-content">
+      <div class="loading-spinner"></div>
+      <div class="loading-title">Developer Tools Platform</div>
+      <div class="loading-subtitle">Loading your toolkit...</div>
+    </div>
+  </div>
+
+  <!-- App container - will be populated by JavaScript -->
+  <div id="app"></div>
+
+  <!-- Error fallback for browsers without JavaScript -->
+  <noscript>
+    <div style="
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background-color: #f8fafc;
+      color: #1f2937;
+      text-align: center;
+      padding: 40px;
+    ">
+      <div>
+        <h1 style="font-size: 24px; margin-bottom: 16px; color: #dc2626;">
+          ⚠️ JavaScript Required
+        </h1>
+        <p style="margin-bottom: 24px; color: #6b7280; line-height: 1.6; max-width: 500px;">
+          Developer Tools Platform requires JavaScript to function properly. 
+          Please enable JavaScript in your browser settings and refresh this page.
+        </p>
+        <a 
+          href="https://enable-javascript.com/" 
+          target="_blank"
+          style="
+            background-color: #1e40af;
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            display: inline-block;
+            transition: background-color 0.2s;
+          "
+        >
+          📖 Learn How to Enable JavaScript
+        </a>
+      </div>
+    </div>
+  </noscript>
+
+  <!-- Main application script -->
+  <script type="module" src="/src/main.ts"></script>
+  
+  <!-- Remove loading screen when app is ready -->
+  <script>
+    // Simple loading screen management
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.body.classList.add('app-ready');
+        setTimeout(() => {
+          const loadingScreen = document.getElementById('loading-screen');
+          if (loadingScreen) {
+            loadingScreen.remove();
+          }
+        }, 300);
+      }, 500); // Minimum loading time for better UX
+    });
+    
+    // Handle loading errors
+    window.addEventListener('error', (event) => {
+      const loadingScreen = document.getElementById('loading-screen');
+      if (loadingScreen) {
+        loadingScreen.innerHTML = `
+          <div class="loading-content">
+            <div style="font-size: 48px; margin-bottom: 16px;">⚠️</div>
+            <div class="loading-title" style="color: #dc2626;">Loading Error</div>
+            <div class="loading-subtitle">Failed to load the application</div>
+            <button 
+              onclick="window.location.reload()" 
+              style="
+                margin-top: 16px;
+                background-color: #1e40af;
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 14px;
+              "
+            >
+              Retry
+            </button>
+          </div>
+        `;
+      }
+    });
+  </script>
+</body>
+</html>
