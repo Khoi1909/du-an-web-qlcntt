@@ -295,9 +295,10 @@ textarea:focus,
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 1100; /* Increase z-index to ensure it's above everything */
   transition: background-color 0.3s ease, border-color 0.3s ease;
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
 }
 
 .header-left, .header-right {
@@ -313,6 +314,8 @@ textarea:focus,
   position: relative;
   max-width: 600px;
   margin: 0 auto;
+  min-width: 0; /* Allow shrinking */
+  overflow: hidden; /* Prevent overflow */
 }
 
 .home-btn, .github-btn, .theme-toggle {
@@ -362,6 +365,8 @@ textarea:focus,
   position: relative;
   width: 100%;
   max-width: 400px;
+  min-width: 0; /* Allow shrinking */
+  flex: 1; /* Take available space */
 }
 
 .search-input {
@@ -1253,23 +1258,126 @@ textarea:focus,
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-  .app {
-    flex-direction: column;
+
+/* Tablet responsive */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .app-header {
+    padding: 0 20px;
+  }
+  
+  .header-center {
+    max-width: 500px;
+  }
+  
+  .search-container {
+    max-width: 350px;
   }
   
   .sidebar {
-    width: 100%;
+    width: 260px;
+  }
+  
+  :root {
+    --sidebar-width: 260px;
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .app {
+    flex-direction: column;
+    padding-top: var(--header-height); /* Keep header padding */
+  }
+  
+  .sidebar {
+    width: 100% !important; /* Force full width */
     height: auto;
     order: 2;
+    position: relative !important; /* Remove fixed positioning */
+    top: auto !important;
+    left: auto !important;
+    z-index: auto;
+    border-right: none;
+    border-top: 1px solid var(--border-color);
+    max-height: 300px; /* Limit height to prevent covering content */
+    overflow-y: auto;
   }
   
   .sidebar.collapsed {
+    width: 100% !important;
+    max-height: 60px; /* Just show header when collapsed */
+    overflow: hidden; /* Hide content when collapsed */
+  }
+  
+  /* Mobile sidebar content adjustment */
+  .sidebar-content {
     width: 100%;
+    padding: 8px;
+  }
+  
+  /* Make navigation items more touch-friendly on mobile */
+  .nav-tool {
+    padding: 12px 16px;
+    min-height: 48px; /* Better touch targets */
   }
   
   .app-container {
     order: 1;
+  }
+  
+  /* Adjust main content margin for mobile */
+  .main-content-container {
+    margin-left: 0 !important;
+    margin-top: var(--header-height);
+  }
+  
+  .main-content {
+    margin-left: 0 !important; /* Remove sidebar margin */
+    padding: 16px;
+    min-height: calc(100vh - var(--header-height));
+  }
+  
+  /* Ensure collapsed sidebar doesn't affect main content */
+  .sidebar.collapsed ~ .app-container .main-content {
+    margin-left: 0 !important;
+  }
+  
+  /* Header responsive fixes */
+  .app-header {
+    padding: 0 12px;
+    height: 56px; /* Reduce header height on mobile */
+  }
+  
+  :root {
+    --header-height: 56px; /* Update CSS variable for mobile */
+  }
+  
+  .header-left, .header-right {
+    gap: 8px;
+  }
+  
+  .header-center {
+    max-width: none;
+    margin: 0 8px;
+    flex: 1;
+  }
+  
+  .search-container {
+    max-width: none;
+  }
+  
+  .search-input {
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+  
+  .home-btn, .github-btn, .theme-toggle {
+    padding: 8px 12px;
+    min-width: 44px; /* Touch target minimum */
+    min-height: 44px;
+  }
+  
+  .home-btn .text {
+    display: none; /* Hide text on mobile to save space */
   }
   
   .home {
@@ -1302,20 +1410,67 @@ textarea:focus,
 
 @media (max-width: 480px) {
   .app-header {
-    padding: 0 16px;
+    padding: 0 8px;
+    height: 52px; /* Even smaller on very small screens */
+  }
+  
+  :root {
+    --header-height: 52px;
+  }
+  
+  .header-left, .header-right {
+    gap: 4px;
   }
   
   .header-center {
     max-width: none;
-    margin: 0 16px;
+    margin: 0 4px;
   }
   
   .search-container {
     max-width: none;
   }
   
+  .search-input {
+    padding: 8px 12px;
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+  
+  .home-btn, .github-btn, .theme-toggle {
+    padding: 6px 8px;
+    min-width: 40px;
+    min-height: 40px;
+    font-size: 14px;
+  }
+  
   .home-btn .text {
     display: none;
+  }
+  
+  .github-btn .text {
+    display: none; /* Hide GitHub text on very small screens */
+  }
+  
+  /* Further mobile sidebar optimization */
+  .sidebar {
+    max-height: 250px !important; /* Reduce max height further */
+  }
+  
+  .sidebar.collapsed {
+    max-height: 56px !important;
+  }
+  
+  .nav-tool {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+  
+  .sidebar-content {
+    padding: 4px;
+  }
+  
+  .main-content {
+    padding: 12px;
   }
   
   .tools-grid {
@@ -1694,6 +1849,38 @@ textarea:focus,
     left: 10px;
     min-width: auto;
     max-width: none;
+  }
+  
+  /* Additional mobile header improvements */
+  .app-header {
+    padding: 0 12px;
+  }
+  
+  .search-results {
+    left: 12px;
+    right: 12px;
+    max-height: 60vh; /* Limit height on mobile */
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .app-header {
+    padding: 0 8px;
+  }
+  
+  .search-results {
+    left: 8px;
+    right: 8px;
+    max-height: 50vh;
+  }
+  
+  .tool-header {
+    padding: 12px;
+  }
+  
+  .tool-content {
+    padding: 12px;
   }
 }
 
@@ -3833,5 +4020,44 @@ textarea:focus,
   to {
     transform: translateX(0);
     opacity: 1;
+  }
+}
+
+/* Touch device optimizations */
+@media (pointer: coarse) {
+  .home-btn, .github-btn, .theme-toggle, .nav-tool {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .search-result-item {
+    padding: 16px;
+  }
+  
+  .tool-card {
+    padding: 20px;
+  }
+}
+
+/* High-density displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .app-header {
+    border-bottom-width: 0.5px;
+  }
+}
+
+/* Landscape phone orientation */
+@media (max-width: 768px) and (orientation: landscape) {
+  .app-header {
+    height: 48px;
+  }
+  
+  :root {
+    --header-height: 48px;
+  }
+  
+  .home-btn, .github-btn, .theme-toggle {
+    padding: 6px 10px;
+    min-height: 40px;
   }
 }
