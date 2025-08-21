@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  base: '/Dev-Tools/',
+  base: '/',
   resolve: {
     alias: {
       '@': '/src',
@@ -55,9 +55,5 @@ export default defineConfig({
   css: {
     devSourcemap: false,
     modules: false
-  },
-  // Enable optimization features
-  optimizeDeps: {
-    include: ['@types/uuid']
   }
 })

@@ -36,6 +36,9 @@ export class SidebarView {
         </nav>
       </aside>
     `;
+
+    // After render, ensure expanded categories have proper dynamic height
+    this.applyDynamicHeights();
   }
 
   private renderNavItems(): string {
@@ -157,13 +160,34 @@ export class SidebarView {
           if (navItem.expanded) {
             toolsContainer.classList.add('expanded');
             arrow.classList.add('expanded');
+            // Set dynamic height to fit its content
+            (toolsContainer as HTMLElement).style.maxHeight = `${(toolsContainer as HTMLElement).scrollHeight}px`;
+            (toolsContainer as HTMLElement).style.opacity = '1';
           } else {
             toolsContainer.classList.remove('expanded');
             arrow.classList.remove('expanded');
+            // Collapse to zero height
+            (toolsContainer as HTMLElement).style.maxHeight = '0px';
+            (toolsContainer as HTMLElement).style.opacity = '0';
           }
         }
       }
     }
+  }
+
+  // Ensure any already-expanded groups use their natural scroll height instead of a fixed cap
+  private applyDynamicHeights(): void {
+    this.container.querySelectorAll('.nav-tools').forEach((el) => {
+      const container = el as HTMLElement;
+      const isExpanded = container.classList.contains('expanded');
+      if (isExpanded) {
+        container.style.maxHeight = `${container.scrollHeight}px`;
+        container.style.opacity = '1';
+      } else {
+        container.style.maxHeight = '0px';
+        container.style.opacity = '0';
+      }
+    });
   }
 
   private highlightSelectedTool(toolId: string): void {

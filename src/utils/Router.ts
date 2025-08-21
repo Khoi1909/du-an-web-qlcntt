@@ -1,8 +1,12 @@
 export class Router {
   private routes: Map<string, () => void> = new Map();
   private notFoundHandler: (() => void) | null = null;
+  private base: string;
 
   constructor() {
+    // Respect Vite base path both in dev and build
+    const viteBase = (import.meta as any).env?.BASE_URL as string | undefined;
+    this.base = (viteBase || '/').replace(/\/+$|^$/g, '/');
     // Listen for browser navigation (back/forward buttons)
     window.addEventListener('popstate', () => {
       this.handleRoute();
@@ -22,7 +26,9 @@ export class Router {
   // Navigate to a route programmatically
   public navigate(path: string): void {
     // Update URL without reloading
-    window.history.pushState({}, '', path);
+    const normalized = path.startsWith('/') ? path : `/${path}`;
+    const prefix = this.base.endsWith('/') ? this.base.slice(0, -1) : this.base;
+    window.history.pushState({}, '', `${prefix}${normalized}`);
     this.handleRoute();
   }
 
@@ -49,7 +55,12 @@ export class Router {
 
   // Get current path
   public getCurrentPath(): string {
-    return window.location.pathname;
+    const pathname = window.location.pathname;
+    if (this.base && pathname.startsWith(this.base)) {
+      const sub = pathname.slice(this.base.length - (this.base.endsWith('/') ? 1 : 0));
+      return sub || '/';
+    }
+    return pathname || '/';
   }
 
   // Get query parameters

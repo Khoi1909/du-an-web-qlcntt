@@ -180,13 +180,16 @@ export class AppController {
           id: category,
           label: this.getCategoryLabel(category),
           category: category,
-          tools: tools,
+          tools: this.sortToolsByUsage(tools, category),
           icon: this.getCategoryIcon(category),
           expanded: false
         });
       }
     }
-    
+
+    // Sort categories by expected usage frequency (most used first)
+    navItems.sort((a, b) => this.getCategorySortIndex(a.category) - this.getCategorySortIndex(b.category));
+
     return navItems;
   }
 
@@ -220,6 +223,117 @@ export class AppController {
       [ToolCategory.DEV]: getIcon('dev')
     };
     return iconMap[category];
+  }
+
+  // Heuristic ordering: expected usage frequency (lower index = higher usage)
+  private getCategorySortIndex(category: ToolCategory): number {
+    const order: ToolCategory[] = [
+      ToolCategory.CONVERSION,
+      ToolCategory.DEV,
+      ToolCategory.ENCODING,
+      ToolCategory.STRING,
+      ToolCategory.API,
+      ToolCategory.CRYPTO,
+      ToolCategory.DATETIME,
+      ToolCategory.NETWORK,
+      ToolCategory.GENERATION,
+      ToolCategory.REGEX,
+    ];
+    const idx = order.indexOf(category);
+    return idx === -1 ? Number.MAX_SAFE_INTEGER : idx;
+  }
+
+  private sortToolsByUsage(tools: Tool[], category: ToolCategory): Tool[] {
+    const orderByCategory: Partial<Record<ToolCategory, string[]>> = {
+      [ToolCategory.CONVERSION]: [
+        'json-yaml',
+        'csv-json',
+        'xml-json',
+        'markdown-to-html',
+        'base-converter',
+        'color-converter',
+        'list-converter',
+        'text-to-unicode',
+        'text-to-binary',
+        'roman-numeral',
+        'nato-alphabet',
+        'toml-converter',
+      ],
+      [ToolCategory.DEV]: [
+        'json-prettify',
+        'yaml-formatter',
+        'xml-formatter',
+        'json-diff',
+        'url-parser',
+        'http-status-codes',
+        'mime-types',
+        'sql-formatter',
+        'docker-run-to-compose',
+        'docker-cheatsheet',
+        'git-cheatsheet',
+        'chmod-calculator',
+        'crontab-generator',
+      ],
+      [ToolCategory.ENCODING]: [
+        'url-encoder',
+        'html-entities',
+        'base64-encoder',
+        'jwt-decoder',
+      ],
+      [ToolCategory.STRING]: [
+        'case-converter',
+        'slugify',
+        'email-normalizer',
+        'password-strength',
+      ],
+      [ToolCategory.API]: [
+        'api-tester',
+      ],
+      [ToolCategory.CRYPTO]: [
+        'hash-generator',
+        'hmac-generator',
+        'encrypt-decrypt',
+        'bcrypt-demo',
+        'rsa-keypair',
+        'bip39-generator',
+        'pdf-signature-checker',
+      ],
+      [ToolCategory.DATETIME]: [
+        'timestamp-converter',
+      ],
+      [ToolCategory.NETWORK]: [
+        'ipv4-subnet',
+        'ipv4-converter',
+        'user-agent-parser',
+        'mac-lookup',
+        'mac-generator',
+        'ipv4-range',
+        'ipv6-ula',
+      ],
+      [ToolCategory.GENERATION]: [
+        'uuid-generator',
+        'ulid-generator',
+        'token-generator',
+        'totp-generator',
+        'qr-generator',
+        'wifi-qr-generator',
+        'svg-placeholder',
+        'random-port',
+        'basic-auth-generator',
+        'open-graph-meta',
+      ],
+    };
+
+    const desired = orderByCategory[category] || [];
+    const indexMap = new Map<string, number>();
+    desired.forEach((id, i) => indexMap.set(id, i));
+
+    return [...tools].sort((a, b) => {
+      const ai = indexMap.has(a.id) ? indexMap.get(a.id)! : Number.MAX_SAFE_INTEGER;
+      const bi = indexMap.has(b.id) ? indexMap.get(b.id)! : Number.MAX_SAFE_INTEGER;
+      if (ai !== bi) return ai - bi;
+      return a.name.localeCompare(b.name);
+    });
   }
 
   // Settings persistence

@@ -77,7 +77,33 @@ export class DynamicToolLoader {
       'hash-generator': 'HashTool',
       'string-utilities': 'StringTool',
       'api-tester': 'ApiTool',
-      'regex-tester': 'RegexTool'
+      'regex-tester': 'RegexTool',
+      // Newly added mappings
+      'url-encoder': 'UrlEncoderTool',
+      'html-entities': 'HtmlEntitiesTool',
+      'base-converter': 'BaseConverterTool',
+      'text-to-binary': 'TextToBinaryTool',
+      'text-to-unicode': 'TextToUnicodeTool',
+      'roman-numeral': 'RomanNumeralTool',
+      'color-converter': 'ColorConverterTool',
+      'markdown-to-html': 'MarkdownToHtmlTool',
+      'nato-alphabet': 'NatoAlphabetTool',
+      'xml-json': 'XmlJsonTool',
+      'list-converter': 'ListConverterTool',
+      'toml-converter': 'TomlConverterTool',
+      'case-converter': 'CaseConverterTool',
+      'slugify': 'SlugifyTool',
+      'email-normalizer': 'EmailNormalizerTool',
+      'password-strength': 'PasswordStrengthTool',
+      'regex-cheatsheet': 'RegexCheatsheetTool',
+      'hmac-generator': 'HmacTool',
+      'encrypt-decrypt': 'EncryptDecryptTool',
+      'bcrypt-demo': 'BcryptTool',
+      'rsa-keypair': 'RSAKeyPairTool',
+      'bip39-generator': 'BIP39Tool',
+      'pdf-signature-checker': 'PDFSignatureCheckerTool',
+      // Generation specific mappings where PascalCase differs from file export
+      'qr-generator': 'QrCodeGeneratorTool'
     };
 
     return classMap[id] || this.pascalCase(id) + 'Tool';
@@ -113,7 +139,66 @@ export function registerDynamicTools(): void {
   DynamicToolLoader.register('hash-generator', () => import('@/components/HashTool'));
   DynamicToolLoader.register('string-utilities', () => import('@/components/StringTool'));
   DynamicToolLoader.register('api-tester', () => import('@/components/ApiTool'));
-  DynamicToolLoader.register('regex-tester', () => import('@/components/RegexTool'));
+  
+  // New Encoding tools
+  DynamicToolLoader.register('url-encoder', () => import('@/components/UrlEncoderTool'));
+  DynamicToolLoader.register('html-entities', () => import('@/components/HtmlEntitiesTool'));
+  // Conversion tools
+  DynamicToolLoader.register('base-converter', () => import('@/components/BaseConverterTool'));
+  DynamicToolLoader.register('text-to-binary', () => import('@/components/TextToBinaryTool'));
+  DynamicToolLoader.register('text-to-unicode', () => import('@/components/TextToUnicodeTool'));
+  DynamicToolLoader.register('roman-numeral', () => import('@/components/RomanNumeralTool'));
+  DynamicToolLoader.register('color-converter', () => import('@/components/ColorConverterTool'));
+  DynamicToolLoader.register('markdown-to-html', () => import('@/components/MarkdownToHtmlTool'));
+  DynamicToolLoader.register('nato-alphabet', () => import('@/components/NatoAlphabetTool'));
+  DynamicToolLoader.register('xml-json', () => import('@/components/XmlJsonTool'));
+  DynamicToolLoader.register('list-converter', () => import('@/components/ListConverterTool'));
+  DynamicToolLoader.register('toml-converter', () => import('@/components/TomlConverterTool'));
+  // String & Regex tools
+  DynamicToolLoader.register('case-converter', () => import('@/components/CaseConverterTool'));
+  DynamicToolLoader.register('slugify', () => import('@/components/SlugifyTool'));
+  DynamicToolLoader.register('email-normalizer', () => import('@/components/EmailNormalizerTool'));
+  DynamicToolLoader.register('password-strength', () => import('@/components/PasswordStrengthTool'));
+  
+  // Crypto tools
+  DynamicToolLoader.register('hmac-generator', () => import('@/components/HmacTool'));
+  DynamicToolLoader.register('encrypt-decrypt', () => import('@/components/EncryptDecryptTool'));
+  DynamicToolLoader.register('bcrypt-demo', () => import('@/components/BcryptTool'));
+  DynamicToolLoader.register('rsa-keypair', () => import('@/components/RSAKeyPairTool'));
+  DynamicToolLoader.register('bip39-generator', () => import('@/components/BIP39Tool'));
+  DynamicToolLoader.register('pdf-signature-checker', () => import('@/components/PDFSignatureCheckerTool'));
+  // Network tools
+  DynamicToolLoader.register('ipv4-subnet', () => import('@/components/Ipv4SubnetTool'));
+  DynamicToolLoader.register('ipv4-converter', () => import('@/components/Ipv4ConverterTool'));
+  DynamicToolLoader.register('ipv4-range', () => import('@/components/Ipv4RangeTool'));
+  DynamicToolLoader.register('mac-lookup', () => import('@/components/MacLookupTool'));
+  DynamicToolLoader.register('mac-generator', () => import('@/components/MacGeneratorTool'));
+  DynamicToolLoader.register('ipv6-ula', () => import('@/components/Ipv6UlaTool'));
+  DynamicToolLoader.register('user-agent-parser', () => import('@/components/UserAgentParserTool'));
+  // Development tools
+  DynamicToolLoader.register('git-cheatsheet', () => import('@/components/GitCheatsheetTool'));
+  DynamicToolLoader.register('crontab-generator', () => import('@/components/CrontabGeneratorTool'));
+  DynamicToolLoader.register('json-prettify', () => import('@/components/JsonPrettifyTool'));
+  DynamicToolLoader.register('sql-formatter', () => import('@/components/SqlFormatterTool'));
+  DynamicToolLoader.register('chmod-calculator', () => import('@/components/ChmodCalculatorTool'));
+  DynamicToolLoader.register('docker-cheatsheet', () => import('@/components/DockerCheatsheetTool'));
+  DynamicToolLoader.register('docker-run-to-compose', () => import('@/components/DockerRunToComposeTool'));
+  DynamicToolLoader.register('xml-formatter', () => import('@/components/XmlFormatterTool'));
+  DynamicToolLoader.register('yaml-formatter', () => import('@/components/YamlFormatterTool'));
+  DynamicToolLoader.register('json-diff', () => import('@/components/JsonDiffTool'));
+  DynamicToolLoader.register('url-parser', () => import('@/components/UrlParserTool'));
+  DynamicToolLoader.register('http-status-codes', () => import('@/components/HttpStatusCodesTool'));
+  DynamicToolLoader.register('mime-types', () => import('@/components/MimeTypesTool'));
+  // Generation
+  DynamicToolLoader.register('ulid-generator', () => import('@/components/UlidGeneratorTool'));
+  DynamicToolLoader.register('token-generator', () => import('@/components/TokenGeneratorTool'));
+  DynamicToolLoader.register('totp-generator', () => import('@/components/TotpGeneratorTool'));
+  DynamicToolLoader.register('qr-generator', () => import('@/components/QrCodeGeneratorTool'));
+  DynamicToolLoader.register('wifi-qr-generator', () => import('@/components/WifiQrGeneratorTool'));
+  DynamicToolLoader.register('svg-placeholder', () => import('@/components/SvgPlaceholderTool'));
+  DynamicToolLoader.register('random-port', () => import('@/components/RandomPortTool'));
+  DynamicToolLoader.register('basic-auth-generator', () => import('@/components/BasicAuthGeneratorTool'));
+  DynamicToolLoader.register('open-graph-meta', () => import('@/components/OpenGraphMetaTool'));
 }
 
 // Khởi tạo dynamic loading
