@@ -2,7 +2,7 @@ import { getIcon } from '@/utils/icons';
 
 async function deriveKey(password: string, salt: Uint8Array, algo: 'AES-GCM-256' | 'AES-GCM-128'): Promise<CryptoKey> {
   const baseKey = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveKey']);
-  const key = await crypto.subtle.deriveKey({ name: 'PBKDF2', salt, iterations: 100000, hash: 'SHA-256' }, baseKey, { name: 'AES-GCM', length: algo === 'AES-GCM-256' ? 256 : 128 }, false, ['encrypt', 'decrypt']);
+  const key = await crypto.subtle.deriveKey({ name: 'PBKDF2', salt: salt.buffer as ArrayBuffer, iterations: 100000, hash: 'SHA-256' }, baseKey, { name: 'AES-GCM', length: algo === 'AES-GCM-256' ? 256 : 128 }, false, ['encrypt', 'decrypt']);
   return key;
 }
 
@@ -69,8 +69,8 @@ export class EncryptDecryptTool {
         const salt = crypto.getRandomValues(new Uint8Array(16));
         const iv = crypto.getRandomValues(new Uint8Array(12));
         const key = await deriveKey(pwd.value, salt, strength.value as any);
-        const cipher = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, new TextEncoder().encode(plain.value));
-        const payload = { alg: strength.value, salt: bufToB64(salt), iv: bufToB64(iv), data: bufToB64(cipher) };
+        const cipher = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv.buffer as ArrayBuffer }, key, new TextEncoder().encode(plain.value));
+        const payload = { alg: strength.value, salt: bufToB64(salt.buffer as ArrayBuffer), iv: bufToB64(iv.buffer as ArrayBuffer), data: bufToB64(cipher) };
         out.value = JSON.stringify(payload);
       } catch { out.value = 'Encryption error'; }
     });
@@ -82,7 +82,7 @@ export class EncryptDecryptTool {
         const iv = b64ToBuf(payload.iv);
         const data = b64ToBuf(payload.data);
         const key = await deriveKey(pwd.value, salt, payload.alg);
-        const plainBuf = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, data);
+        const plainBuf = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv.buffer as ArrayBuffer }, key, data.buffer as ArrayBuffer);
         out.value = new TextDecoder().decode(plainBuf);
       } catch { out.value = 'Decryption error'; }
     });

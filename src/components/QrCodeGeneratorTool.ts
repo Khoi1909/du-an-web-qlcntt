@@ -1,4 +1,7 @@
 import { getIcon } from '@/utils/icons';
+// Type-only import for TS; runtime stays JS
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import QRCode from 'qrcode';
 
 export class QrCodeGeneratorTool {

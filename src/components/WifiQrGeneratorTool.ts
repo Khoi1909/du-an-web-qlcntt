@@ -1,4 +1,6 @@
 import { getIcon } from '@/utils/icons';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import QRCode from 'qrcode';
 
 function buildWifiString(ssid: string, password: string, auth: string, hidden: boolean): string {

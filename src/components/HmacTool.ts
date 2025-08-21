@@ -86,12 +86,12 @@ export class HmacTool {
       try {
         const key = await crypto.subtle.importKey(
           'raw',
-          textToBytes(secretEl.value),
+          textToBytes(secretEl.value).buffer as ArrayBuffer,
           { name: 'HMAC', hash: algoSel.value },
           false,
           ['sign']
         );
-        const sig = await crypto.subtle.sign('HMAC', key, textToBytes(msgEl.value));
+        const sig = await crypto.subtle.sign('HMAC', key, textToBytes(msgEl.value).buffer as ArrayBuffer);
         outEl.value = encSel.value === 'hex' ? toHex(sig) : toBase64(sig);
       } catch (e) {
         outEl.value = 'Error generating HMAC';
