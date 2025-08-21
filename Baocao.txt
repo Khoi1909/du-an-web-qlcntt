@@ -1,0 +1,199 @@
+1. Giới thiệu chung dự án
+1.1 Bối cảnh và lý do thực hiện
+1.1.1 Bối cảnh thực tiễn 
+Trong thời đại công nghệ số hiện nay, nhu cầu sử dụng các công cụ hỗ trợ kỹ thuật ngày càng trở nên cấp thiết đối với lập trình viên và chuyên viên CNTT. Các công cụ như mã hóa/giải mã, chuyển đổi định dạng, kiểm tra API, xử lý chuỗi, tạo UUID,... thường xuyên được sử dụng trong quá trình phát triển phần mềm, bảo trì hệ thống và kiểm thử. Tuy nhiên, việc phải tìm kiếm các công cụ riêng lẻ trên nhiều nền tảng khác nhau gây mất thời gian và ảnh hưởng đến hiệu suất làm việc.
+Để giải quyết vấn đề này, nhiều nền tảng như it-tools.tech đã ra đời, cung cấp một tập hợp các công cụ hỗ trợ kỹ thuật trực tuyến, miễn phí, giao diện đơn giản và tiện lợi. Mô hình này cho thấy tính ứng dụng cao và góp phần tăng năng suất cho người làm công nghệ.
+1.1.2 Lý do thực hiện dự án 
+Tập trung công cụ vào một nền tảng duy nhất: Giảm thời gian tìm kiếm, thao tác và nâng cao trải nghiệm người dùng.
+    • Tự học và nâng cao kỹ năng phát triển web hiện đại: Thực hành TypeScript, Vanilla JavaScript, CSS3 custom design, triển khai web server bằng Nginx.
+    • Tận dụng công cụ AI để tăng tốc phát triển: Sử dụng ChatGPT, Gemini để hỗ trợ viết code, kiểm thử, và lên ý tưởng chức năng.
+    • Tạo ra công cụ hỗ trợ cá nhân: Phù hợp với thói quen và nhu cầu sử dụng riêng của lập trình viên cá nhân, không rườm rà.
+    • Tăng cường hiểu biết về UI/UX và thiết kế công cụ tiện ích nhỏ gọn, hiệu quả.
+    • Xây dựng ứng dụng hoàn toàn client-side, không cần backend server.
+    • Học cách triển khai web application với Nginx server.
+1.2 Mục tiêu hệ thống
+1.2.1 Mục tiêu tổng quát
+Xây dựng một nền tảng web tích hợp các công cụ kỹ thuật thông dụng, có giao diện thân thiện, hoạt động hoàn toàn client-side (không cần backend), phục vụ nhu cầu thường xuyên của lập trình viên và chuyên viên IT, giúp tiết kiệm thời gian, tăng hiệu suất làm việc, đồng thời tạo ra một sản phẩm có thể mở rộng, phát triển lâu dài.
+1.2.2 Mục tiêu cụ thể
+    • Tích hợp các công cụ như:
+        ◦ Mã hóa/giải mã Base64, JWT
+        ◦ Chuyển đổi định dạng: JSON ↔ YAML, CSV ↔ JSON
+        ◦ Tạo UUID, timestamp, hash MD5/SHA1/SHA256
+        ◦ Công cụ xử lý chuỗi (trim, split, escape, manipulate)
+        ◦ Kiểm thử API (giống Postman mini với đầy đủ HTTP methods)
+        ◦ Regex Tester
+    • Không yêu cầu tài khoản, không lưu trữ dữ liệu người dùng.
+    • Hoạt động nhanh, mượt mà, không giật lag trên mọi trình duyệt.
+    • Có khả năng lưu tạm thông tin thao tác qua localStorage.
+    • Giao diện đơn giản, hiện đại, tối ưu cho cả desktop và mobile.
+    • Hỗ trợ theme sáng/tối và responsive design.
+1.3 Thành viên thực hiện
+    • Nguyễn Vương Minh Khôi: Phân tích yêu cầu, quản lý source code, thiết kế giao diện, thiết kế kiến trúc ứng dụng, lập trình frontend với TypeScript, kiểm thử và triển khai bằng Nginx server.
+
+2. Phân tích yêu cầu
+2.1 Chức năng chính
+    • Tích hợp các công cụ kỹ thuật thường dùng:
+        ◦ Công cụ mã hóa/giải mã (Base64, JWT)
+        ◦ Chuyển đổi JSON ↔ YAML, CSV ↔ JSON
+        ◦ Tạo UUID (v1, v4, v5), timestamp converter
+        ◦ Trình kiểm thử API (nhập URL, method, header, body, auth)
+        ◦ Regex tester với real-time validation
+        ◦ Hash generator (MD5, SHA1, SHA256)
+        ◦ String utilities (trim, split, escape, manipulate)
+    • Cho phép sao chép kết quả nhanh chóng
+    • Tìm kiếm nhanh công cụ bằng tên và keywords
+    • Giao diện chia thành sidebar navigation với categories
+    • Tự động lưu phiên làm việc gần nhất bằng LocalStorage
+    • Hỗ trợ favorites và keyboard shortcuts
+    • Theme switching (light/dark mode)
+    • Responsive design cho mobile và desktop
+    • PWA capabilities với Service Worker 
+ • Xác định thông tin lưu trữ cho các chức năng
+
+**Bảng 1: Lưu trữ cài đặt người dùng**
+
+| STT | Tên yêu cầu | Người được hỏi | Ngày | Ký tên | Ghi chú |
+|-----|-------------|----------------|------|--------|---------|
+| 1 | Lưu trữ theme | Nguyễn Vương Minh Khôi | 07/08/25 | Nguyễn Vương Minh Khôi | Light/Dark mode |
+| 2 | Lưu trạng thái sidebar | Nguyễn Vương Minh Khôi | 07/08/25 | Nguyễn Vương Minh Khôi | Collapsed/Expanded |
+| 3 | Lưu danh sách yêu thích | Nguyễn Vương Minh Khôi | 07/08/25 | Nguyễn Vương Minh Khôi | Tool IDs được đánh dấu favorite |
+
+**Bảng 2: Lưu trữ cache ứng dụng**
+
+| STT | Tên yêu cầu | Người được hỏi | Ngày | Ký tên | Ghi chú |
+|-----|-------------|----------------|------|--------|---------|
+| 1 | Cache file tĩnh | Nguyễn Vương Minh Khôi | 07/08/25 | Nguyễn Vương Minh Khôi | HTML, CSS, JavaScript |
+| 2 | Cache động | Nguyễn Vương Minh Khôi | 07/08/25 | Nguyễn Vương Minh Khôi | API responses, dynamic content |
+
+**Phương thức lưu trữ:**
+
+- **LocalStorage**: Lưu trữ cài đặt người dùng và danh sách yêu thích
+- **Service Worker**: Cache file tĩnh và nội dung động cho offline access
+- **Không sử dụng database**: Ứng dụng hoạt động hoàn toàn client-side
+
+2.1.2 Xây Dựng Mô Hình Thực Thể
+
+2.2 Xác định thông tin lưu trữ cho các chức năng
+
+**Bảng 1: Lưu trữ cài đặt người dùng**
+
+| STT | Tên yêu cầu | Người được hỏi | Ngày | Ký tên | Ghi chú |
+|-----|-------------|----------------|------|--------|---------|
+| 1 | Lưu trữ theme | Nguyễn Vương Minh Khôi | 07/08/25 | Nguyễn Vương Minh Khôi | Light/Dark mode |
+| 2 | Lưu trạng thái sidebar | Nguyễn Vương Minh Khôi | 07/08/25 | Nguyễn Vương Minh Khôi | Collapsed/Expanded |
+| 3 | Lưu danh sách yêu thích | Nguyễn Vương Minh Khôi | 07/08/25 | Nguyễn Vương Minh Khôi | Tool IDs được đánh dấu favorite |
+
+**Bảng 2: Lưu trữ cache ứng dụng**
+
+| STT | Tên yêu cầu | Người được hỏi | Ngày | Ký tên | Ghi chú |
+|-----|-------------|----------------|------|--------|---------|
+| 1 | Cache file tĩnh | Nguyễn Vương Minh Khôi | 07/08/25 | Nguyễn Vương Minh Khôi | HTML, CSS, JavaScript |
+| 2 | Cache động | Nguyễn Vương Minh Khôi | 07/08/25 | Nguyễn Vương Minh Khôi | API responses, dynamic content |
+
+**Phương thức lưu trữ:**
+
+- **LocalStorage**: Lưu trữ cài đặt người dùng và danh sách yêu thích
+- **Service Worker**: Cache file tĩnh và nội dung động cho offline access
+- **Không sử dụng database**: Ứng dụng hoạt động hoàn toàn client-side
+
+2.3 Yêu cầu phi chức năng
+
+2.3.1 Yêu cầu về hiệu suất
+Thời gian phản hồi: Ứng dụng phải phản hồi trong vòng 100ms cho các thao tác cơ bản
+Tốc độ tải trang: Trang chính phải tải trong vòng 2 giây trên kết nối 3G
+Lazy loading: Các công cụ chỉ được tải khi người dùng cần sử dụng
+Caching: Sử dụng Service Worker để cache static assets và cải thiện performance
+
+2.3.2 Yêu cầu về khả năng sử dụng
+Giao diện trực quan: Thiết kế đơn giản, dễ hiểu cho cả người mới và chuyên gia
+Responsive design: Hoạt động tốt trên mọi thiết bị (desktop, tablet, mobile)
+Accessibility: Hỗ trợ keyboard navigation và screen reader
+Theme switching: Cho phép người dùng chọn light/dark mode theo preference
+
+2.3.3 Yêu cầu về bảo mật
+Client-side only: Không lưu trữ dữ liệu nhạy cảm trên server
+Local storage: Dữ liệu người dùng chỉ được lưu trong browser
+No tracking: Không thu thập thông tin cá nhân hoặc hành vi người dùng
+HTTPS: Triển khai trên HTTPS để bảo vệ dữ liệu truyền tải
+
+2.3.4 Yêu cầu về khả năng mở rộng
+Modular architecture: Thiết kế theo kiến trúc plugin để dễ dàng thêm tools mới
+Component-based: Sử dụng TypeScript classes để tái sử dụng code
+Configuration-driven: Các tools được cấu hình thông qua JSON data
+API extensibility: Dễ dàng tích hợp thêm các công cụ mới
+
+2.3.5 Yêu cầu về khả năng bảo trì
+Clean code: Tuân thủ coding standards và best practices
+Documentation: Code được comment và document đầy đủ
+Version control: Sử dụng Git để quản lý source code
+Testing: Kiểm thử các chức năng chính trước khi deploy
+
+2.3.6 Yêu cầu về tương thích
+Browser support: Hoạt động trên các trình duyệt hiện đại (Chrome, Firefox, Safari, Edge)
+Mobile compatibility: Responsive design cho các thiết bị di động
+PWA support: Có thể cài đặt như ứng dụng native trên mobile
+Offline capability: Hoạt động cơ bản khi không có internet
+
+2.3.7 Yêu cầu về triển khai
+Static hosting: Có thể triển khai trên bất kỳ web server nào
+Nginx deployment: Tối ưu hóa cho Nginx web server
+Build optimization: Sử dụng Vite để tối ưu hóa bundle size
+CDN ready: Có thể tích hợp với CDN để cải thiện performance
+
+3. Cách Tính Chi Phí Cho 1 Chức Năng Của Phần Mềm
+
+Để tính chi phí cho một chức năng trong phần mềm Dev-Tools, chúng em cần xác định rõ các yếu tố liên quan đến phát triển chức năng đó, bao gồm công sức con người, thời gian, tài nguyên và các chi phí khác.
+
+Để xây dựng các tính năng cho hệ thống Dev-Tools, chúng em lần lượt xác định các bước như sau:
+
+BƯỚC 1: XÁC ĐỊNH CHỨC NĂNG CỤ THỂ
+- Chức năng mã hóa/giải mã Base64
+- Chức năng chuyển đổi JSON ↔ YAML
+- Chức năng tạo UUID và timestamp
+- Chức năng kiểm thử API
+- Chức năng tạo hash MD5/SHA1/SHA256
+- Chức năng xử lý chuỗi (trim, split, escape)
+- Chức năng Regex tester
+- Chức năng chuyển đổi CSV ↔ JSON
+- Chức năng giải mã và validate JWT
+
+BƯỚC 2: PHÂN TÍCH CÁC HOẠT ĐỘNG CẦN THIẾT
+Chia nhỏ chức năng ra các bước thực hiện:
+• Phân tích yêu cầu/Xác định các dữ liệu cần lưu trữ/ Mô hình Class Diagram, Use Case
+• Thiết kế giao diện (UI/UX) với theme switching và responsive design
+• Viết code (Frontend với TypeScript + Vanilla JavaScript)
+• Kiểm thử (test) các chức năng chính
+• Tài liệu hướng dẫn sử dụng
+• Triển khai trên Nginx server
+
+BƯỚC 3: ƯỚC LƯỢNG THỜI GIAN
+Ước lượng thời gian cho từng bước:
+
+| Công việc | Thời gian |
+|------------|-----------|
+| Phân tích yêu cầu và thiết kế | 2 tuần |
+| Thiết kế giao diện UI/UX | 2 tuần |
+| Lập trình Frontend (TypeScript) | 4 tuần |
+| Kiểm thử và debug | 1 tuần |
+| Tài liệu và hướng dẫn | 1 tuần |
+| Triển khai và tối ưu hóa | 1 tuần |
+| **Tổng** | **11 tuần** |
+
+BƯỚC 4: XÁC ĐỊNH CHI PHÍ NHÂN CÔNG
+Giả sử chi phí nhân công trung bình là 200.000 VNĐ/giờ:
+Thời gian làm việc: 11 tuần × 40 giờ/tuần = 440 giờ
+Chi phí nhân công = 440 giờ × 200.000 = 88.000.000 VNĐ
+
+BƯỚC 5: CỘNG CÁC CHI PHÍ KHÁC
+• Chi phí công cụ, phần mềm: Visual Studio Code, Git, npm packages
+• Chi phí hosting và domain (nếu có)
+• Chi phí bảo trì, chỉnh sửa
+• Chi phí kiểm thử với Postman và browser tools
+• Chi phí AI assistance (ChatGPT, Gemini)
+Tổng chi phí khác: 2.000.000 VNĐ
+
+BƯỚC 6: TỔNG CHI PHÍ CHỨC NĂNG
+Tổng chi phí = Chi phí nhân công + Chi phí khác
+= 88.000.000 + 2.000.000 = 90.000.000 VNĐ
+
+**Kết luận:** Để phát triển hoàn chỉnh hệ thống Dev-Tools với 9 chức năng chính, tổng chi phí ước tính là **90.000.000 VNĐ** trong thời gian **11 tuần** (2.5 tháng) với 1 developer. 

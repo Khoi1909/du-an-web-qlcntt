@@ -378,7 +378,7 @@ export class AppController {
   }
 
   openGitHub(): void {
-    window.open('https://github.com', '_blank');
+    window.open('https://github.com/Khoi1909/Dev-Tools', '_blank');
   }
 
   // Routing setup
