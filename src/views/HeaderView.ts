@@ -110,9 +110,13 @@ export class HeaderView {
   }
 
   private async handleSearch(query: string, clearBtn: HTMLButtonElement, resultsContainer: HTMLDivElement): Promise<void> {
+    console.log('Search triggered with query:', query); // Debug log
+    
     if (query.trim()) {
       clearBtn.style.display = 'block';
+      console.log('Calling controller.search with:', query); // Debug log
       const results = await this.controller.search(query);
+      console.log('Search results received:', results); // Debug log
       this.displaySearchResults(results, resultsContainer);
     } else {
       clearBtn.style.display = 'none';
@@ -122,6 +126,8 @@ export class HeaderView {
   }
 
   private displaySearchResults(results: Tool[], container: HTMLDivElement): void {
+    console.log('Displaying search results:', results.length, 'results'); // Debug log
+    
     if (results.length === 0) {
       container.innerHTML = '<div class="search-no-results">No tools found</div>';
     } else {
@@ -147,7 +153,9 @@ export class HeaderView {
       });
     }
     
+    console.log('Setting container display to block'); // Debug log
     container.style.display = 'block';
+    console.log('Container display style:', container.style.display); // Debug log
   }
 
   private updateThemeIcon(theme: ThemeMode): void {

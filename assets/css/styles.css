@@ -318,7 +318,7 @@ textarea:focus,
   max-width: 600px;
   margin: 0 auto;
   min-width: 0; /* Allow shrinking */
-  overflow: hidden; /* Prevent overflow */
+  overflow: visible; /* Changed from hidden to visible to allow search results to show */
 }
 
 .home-btn, .github-btn, .theme-toggle {
@@ -425,7 +425,7 @@ textarea:focus,
   box-shadow: var(--shadow-lg);
   max-height: 300px;
   overflow-y: auto;
-  z-index: 1000;
+  z-index: 1200; /* Increased z-index to ensure visibility */
   margin-top: 4px;
   transition: background-color 0.3s ease,
               border-color 0.3s ease,
@@ -433,11 +433,13 @@ textarea:focus,
               transform 0.3s ease;
   opacity: 0;
   transform: translateY(-10px);
+  pointer-events: none; /* Prevent interaction when hidden */
 }
 
 .search-results[style*="display: block"] {
   opacity: 1;
   transform: translateY(0);
+  pointer-events: auto; /* Enable interaction when visible */
 }
 
 .search-result-item {

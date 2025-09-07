@@ -651,14 +651,19 @@ export class ToolDiscoveryService {
 
   // Search tools
   static async searchTools(query: string): Promise<Tool[]> {
+    console.log('ToolDiscoveryService.searchTools called with query:', query); // Debug log
     const tools = await this.discoverTools();
+    console.log('Available tools:', tools.length); // Debug log
     const searchTerm = query.toLowerCase();
     
-    return tools.filter(tool => 
+    const results = tools.filter(tool => 
       tool.name.toLowerCase().includes(searchTerm) ||
       tool.description.toLowerCase().includes(searchTerm) ||
       tool.keywords.some(keyword => keyword.toLowerCase().includes(searchTerm))
     );
+    
+    console.log('Filtered results:', results.length); // Debug log
+    return results;
   }
 
   // Reset cache
